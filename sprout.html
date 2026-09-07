@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprout</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Vazirmatn:wght@400;500;600;700&display=swap');
+
+  :root{
+    --pine-950:#0E1913;
+    --pine-900:#132720;
+    --pine-800:#1B362B;
+    --pine-700:#254536;
+    --pine-600:#33573F;
+    --leaf-500:#82AE69;
+    --leaf-400:#9FC383;
+    --leaf-300:#C0D9A9;
+    --leaf-100:#E4EFD8;
+    --amber-500:#E0A83F;
+    --amber-600:#C08A28;
+    --amber-glow:rgba(224,168,63,0.18);
+    --clay-500:#B47A50;
+    --clay-700:#875839;
+    --paper-100:#F6F0E1;
+    --paper-200:#EBE1C8;
+    --ink-900:#241C10;
+    --ink-600:#63583F;
+    --wilt-500:#94805F;
+    --danger:#C1614C;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 14% 8%, rgba(130,174,105,0.16), transparent 42%),
+      radial-gradient(circle at 88% 78%, rgba(224,168,63,0.12), transparent 46%),
+      linear-gradient(160deg, var(--pine-950) 0%, var(--pine-900) 55%, #0B140F 100%);
+    background-attachment:fixed;
+    color:var(--paper-100);
+    font-family:'Vazirmatn',sans-serif;
+    min-height:100vh;
+  }
+  .wrap{
+    max-width:980px;
+    margin:0 auto;
+    padding:36px 22px 40px;
+  }
+  header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .brand-mark{
+    width:44px;
+    height:44px;
+    border-radius:13px;
+    background:linear-gradient(150deg, var(--pine-700), var(--pine-800));
+    border:1px solid rgba(159,195,131,0.25);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:30px;
+    margin:0;
+    color:var(--paper-100);
+    letter-spacing:0.2px;
+    line-height:1;
+  }
+  .tagline{
+    font-size:13.5px;
+    color:var(--leaf-300);
+    margin:6px 0 0;
+  }
+  .streak{
+    font-size:13px;
+    color:var(--amber-500);
+    background:var(--amber-glow);
+    border:1px solid rgba(224,168,63,0.3);
+    padding:6px 12px;
+    border-radius:999px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    height:fit-content;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:350px 1fr;
+    gap:20px;
+  }
+  @media (max-width:720px){
+    .grid{grid-template-columns:1fr;}
+  }
+  .card{
+    background:linear-gradient(165deg, var(--pine-800), var(--pine-900));
+    border:1px solid rgba(159,195,131,0.14);
+    border-radius:20px;
+    padding:24px;
+    box-shadow:0 18px 40px -22px rgba(0,0,0,0.55);
+  }
+  .companion-card{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .companion-card::before{
+    content:'';
+    position:absolute;
+    top:-60px; right:-60px;
+    width:180px; height:180px;
+    background:radial-gradient(circle, rgba(159,195,131,0.14), transparent 70%);
+    pointer-events:none;
+  }
+  .stage-name{
+    font-family:'Fraunces',serif;
+    font-size:21px;
+    font-weight:500;
+    color:var(--leaf-100);
+    margin:16px 0 3px;
+  }
+  .stage-note{
+    font-size:13px;
+    color:var(--leaf-300);
+    margin:0 0 20px;
+    min-height:18px;
+  }
+  .jar{
+    width:100%;
+    max-width:230px;
+    margin-top:4px;
+  }
+  .jar-track{
+    height:9px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.3);
+    overflow:hidden;
+    border:1px solid rgba(159,195,131,0.18);
+  }
+  .jar-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--clay-500), var(--amber-500));
+    transition:width 0.6s cubic-bezier(.4,0,.2,1);
+  }
+  .jar-label{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    margin-top:7px;
+    color:var(--leaf-300);
+  }
+  .core-status{
+    margin-top:20px;
+    width:100%;
+    font-size:13px;
+    color:var(--leaf-300);
+    border-top:1px solid rgba(159,195,131,0.14);
+    padding-top:16px;
+  }
+  .core-status b{color:var(--paper-100); font-weight:600;}
+  .task-card h2{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:19px;
+    margin:0 0 5px;
+    color:var(--paper-100);
+  }
+  .task-card p.sub{
+    font-size:13px;
+    color:var(--leaf-300);
+    margin:0 0 18px;
+  }
+  .add-row{
+    display:flex;
+    gap:8px;
+    margin-bottom:18px;
+  }
+  input[type=text]{
+    flex:1;
+    background:var(--paper-100);
+    color:var(--ink-900);
+    border:1px solid transparent;
+    border-radius:12px;
+    padding:12px 15px;
+    font-size:14px;
+    font-family:'Vazirmatn',sans-serif;
+    transition:border-color 0.2s;
+  }
+  input[type=text]::placeholder{color:var(--ink-600);}
+  input[type=text]:focus{outline:none; border-color:var(--amber-500);}
+  button{
+    font-family:'Vazirmatn',sans-serif;
+    cursor:pointer;
+  }
+  .btn-add{
+    background:linear-gradient(160deg, var(--amber-500), var(--amber-600));
+    color:var(--ink-900);
+    border:none;
+    border-radius:12px;
+    padding:0 20px;
+    font-size:14px;
+    font-weight:600;
+  }
+  .btn-add:hover{filter:brightness(1.06);}
+  .task-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .task{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--paper-100);
+    border-radius:12px;
+    padding:11px 13px;
+    transition:opacity 0.3s;
+  }
+  .task.done{
+    opacity:0.5;
+  }
+  .task-check{
+    width:21px;
+    height:21px;
+    border-radius:50%;
+    border:2px solid var(--clay-500);
+    background:transparent;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+  }
+  .task.done .task-check{
+    background:var(--leaf-500);
+    border-color:var(--leaf-500);
+  }
+  .task-check svg{width:11px;height:11px;display:none;}
+  .task.done .task-check svg{display:block;}
+  .task-text{
+    flex:1;
+    font-size:14px;
+    color:var(--ink-900);
+    text-align:right;
+  }
+  .task.done .task-text{
+    text-decoration:line-through;
+    color:var(--ink-600);
+  }
+  .bud-btn{
+    background:none;
+    border:none;
+    font-size:16px;
+    padding:2px 4px;
+    opacity:0.35;
+    flex-shrink:0;
+    transition:opacity 0.2s, transform 0.2s;
+  }
+  .bud-btn.active{opacity:1; transform:scale(1.1);}
+  .bud-btn:disabled{opacity:0.15; cursor:not-allowed;}
+  .del-btn{
+    background:none;
+    border:none;
+    color:var(--ink-600);
+    font-size:15px;
+    padding:2px 4px;
+    flex-shrink:0;
+  }
+  .del-btn:hover{color:var(--danger);}
+  .empty{
+    text-align:center;
+    color:var(--leaf-300);
+    font-size:13px;
+    padding:34px 10px;
+  }
+  .wilt-banner{
+    margin-top:16px;
+    background:rgba(0,0,0,0.2);
+    border:1px solid var(--wilt-500);
+    color:var(--leaf-100);
+    font-size:12.5px;
+    border-radius:10px;
+    padding:11px 13px;
+    text-align:right;
+  }
+  footer{
+    text-align:center;
+    margin-top:44px;
+    font-size:12px;
+    color:var(--ink-600);
+    opacity:0.8;
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <header>
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 21V11" stroke="#9FC383" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M12 11C12 11 12 4 5 4C5 4 5.5 11 12 11Z" fill="#82AE69"/>
+          <path d="M12 14C12 14 12 8 19 8C19 8 18.5 14 12 14Z" fill="#9FC383"/>
+        </svg>
+      </div>
+      <div>
+        <h1>Sprout</h1>
+        <p class="tagline">هر کاری که تموم می‌کنی، این گیاه رو زنده نگه می‌داره</p>
+      </div>
+    </div>
+    <div class="streak" id="streak-label"></div>
+  </header>
+
+  <div class="grid">
+    <div class="card companion-card">
+      <svg id="plant-svg" viewBox="0 0 220 260" width="180" height="210"></svg>
+      <div class="stage-name" id="stage-name"></div>
+      <div class="stage-note" id="stage-note"></div>
+      <div class="jar">
+        <div class="jar-track"><div class="jar-fill" id="jar-fill"></div></div>
+        <div class="jar-label"><span>سلامت</span><span id="health-pct"></span></div>
+      </div>
+      <div class="core-status" id="core-status"></div>
+      <div id="wilt-banner-slot"></div>
+    </div>
+
+    <div class="card task-card">
+      <h2>کارهای امروز</h2>
+      <p class="sub">تا ۳ تا کار رو «حیاتی» علامت بزن — رها کردنشون گیاهت رو پژمرده می‌کنه</p>
+      <div class="add-row">
+        <input type="text" id="task-input" placeholder="مثلاً: تماس با دکتر" maxlength="120" />
+        <button class="btn-add" id="add-btn">افزودن</button>
+      </div>
+      <ul class="task-list" id="task-list"></ul>
+    </div>
+  </div>
+
+  <footer>© 2026 Abdul Sabor Rasooli</footer>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'sprout:state';
+  var todayStr = function(){ return new Date().toISOString().slice(0,10); };
+
+  var state = {
+    tasks: [],
+    health: 55,
+    streak: 0,
+    lastCheckedDate: todayStr()
+  };
+
+  function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
+
+  function coreCountToday(){
+    return state.tasks.filter(function(t){ return t.core && t.coreForDate === todayStr(); }).length;
+  }
+
+  function rollForward(){
+    var today = todayStr();
+    if(!state.lastCheckedDate) state.lastCheckedDate = today;
+    if(state.lastCheckedDate === today) return;
+
+    var y = state.lastCheckedDate;
+    var yesterdayCore = state.tasks.filter(function(t){ return t.core && t.coreForDate === y; });
+    if(yesterdayCore.length > 0){
+      var undone = yesterdayCore.filter(function(t){ return !t.done; });
+      if(undone.length > 0){
+        state.health = clamp(state.health - (undone.length * 14), 0, 100);
+        state.streak = 0;
+        undone.forEach(function(t){ t.core = false; });
+      } else {
+        state.streak = state.streak + 1;
+      }
+      yesterdayCore.forEach(function(t){ if(t.done) t.core = false; });
+    }
+    state.lastCheckedDate = today;
+  }
+
+  function save(){
+    try{
+      window.storage.set(STORAGE_KEY, JSON.stringify(state), false).catch(function(){});
+    }catch(e){}
+  }
+
+  function load(){
+    return window.storage.get(STORAGE_KEY, false)
+      .then(function(res){
+        if(res && res.value){
+          var parsed = JSON.parse(res.value);
+          state = Object.assign(state, parsed);
+        }
+      })
+      .catch(function(){ })
+      .then(function(){
+        rollForward();
+        save();
+        render();
+      });
+  }
+
+  function addTask(text){
+    text = text.trim();
+    if(!text) return;
+    state.tasks.unshift({
+      id: 't' + Date.now() + Math.random().toString(16).slice(2),
+      text: text,
+      done: false,
+      core: false,
+      coreForDate: null
+    });
+    save();
+    render();
+  }
+
+  function toggleDone(id){
+    var t = state.tasks.find(function(x){ return x.id === id; });
+    if(!t) return;
+    t.done = !t.done;
+    var delta = t.core ? 12 : 4;
+    state.health = clamp(state.health + (t.done ? delta : -delta), 0, 100);
+    save();
+    render();
+  }
+
+  function toggleCore(id){
+    var t = state.tasks.find(function(x){ return x.id === id; });
+    if(!t) return;
+    if(!t.core){
+      if(coreCountToday() >= 3) return;
+      t.core = true;
+      t.coreForDate = todayStr();
+    } else {
+      t.core = false;
+      t.coreForDate = null;
+    }
+    save();
+    render();
+  }
+
+  function deleteTask(id){
+    state.tasks = state.tasks.filter(function(x){ return x.id !== id; });
+    save();
+    render();
+  }
+
+  function stageFor(health){
+    if(health <= 20) return {key:'seed', name:'دانه', note:'یه کار کوچیک تمومش کن تا جوونه بزنه.'};
+    if(health <= 45) return {key:'sprout', name:'جوانه', note:'داره شروع می‌کنه. ادامه بده.'};
+    if(health <= 70) return {key:'growing', name:'در حال رشد', note:'برگ‌هاش دارن باز می‌شن.'};
+    return {key:'bloom', name:'شکوفا', note:'خوب داری ازش مراقبت می‌کنی.'};
+  }
+
+  function plantSVG(stageKey, wilted){
+    var leafColor = wilted ? '#94805F' : '#82AE69';
+    var stemColor = wilted ? '#7F6C4E' : '#5E8B4C';
+    var potTop = 210;
+
+    var pot = ''
+      + '<path d="M60 '+potTop+' L160 '+potTop+' L148 250 L72 250 Z" fill="#B47A50"/>'
+      + '<rect x="55" y="'+(potTop-8)+'" width="110" height="12" rx="4" fill="#875839"/>'
+      + '<ellipse cx="110" cy="'+(potTop-8)+'" rx="55" ry="7" fill="#2C2013"/>';
+
+    var stemBend = wilted ? 26 : 0;
+    var stemTopY = stageKey==='seed' ? potTop-14 : stageKey==='sprout' ? potTop-55 : stageKey==='growing' ? potTop-105 : potTop-140;
+    var stemPath = '<path d="M110 '+(potTop-10)+' Q '+(110+stemBend)+' '+((potTop+stemTopY)/2)+' '+(110+stemBend*1.4)+' '+stemTopY+'" stroke="'+stemColor+'" stroke-width="6" fill="none" stroke-linecap="round"/>';
+
+    function leaf(cx, cy, rx, ry, rot, wiltExtra){
+      var droop = wilted ? (wiltExtra||0) : 0;
+      return '<ellipse cx="'+cx+'" cy="'+(cy+droop)+'" rx="'+rx+'" ry="'+ry+'" fill="'+leafColor+'" transform="rotate('+rot+' '+cx+' '+(cy+droop)+')"/>';
+    }
+
+    var extras = '';
+    if(stageKey === 'seed'){
+      extras += '<ellipse cx="110" cy="'+(potTop-14)+'" rx="10" ry="7" fill="'+leafColor+'"/>';
+    } else if(stageKey === 'sprout'){
+      var tx = 110+stemBend*1.4, ty = stemTopY;
+      extras += leaf(tx-14, ty+6, 16, 9, -25, 8);
+      extras += leaf(tx+14, ty+10, 16, 9, 25, 8);
+    } else if(stageKey === 'growing'){
+      var tx2 = 110+stemBend*1.4, ty2 = stemTopY;
+      extras += leaf(tx2-20, ty2+20, 22, 12, -30, 12);
+      extras += leaf(tx2+20, ty2+26, 22, 12, 30, 12);
+      extras += leaf(tx2-16, ty2-6, 20, 11, -18, 10);
+      extras += leaf(tx2+16, ty2, 20, 11, 18, 10);
+    } else {
+      var tx3 = 110+stemBend*1.4, ty3 = stemTopY;
+      extras += leaf(tx3-24, ty3+30, 24, 13, -32, 14);
+      extras += leaf(tx3+24, ty3+34, 24, 13, 32, 14);
+      extras += leaf(tx3-18, ty3+4, 22, 12, -18, 12);
+      extras += leaf(tx3+18, ty3+8, 22, 12, 18, 12);
+      if(!wilted){
+        extras += '<circle cx="'+tx3+'" cy="'+(ty3-14)+'" r="10" fill="#E0A83F"/>';
+        extras += '<circle cx="'+(tx3-13)+'" cy="'+(ty3-4)+'" r="8" fill="#E9C173"/>';
+        extras += '<circle cx="'+(tx3+13)+'" cy="'+(ty3-4)+'" r="8" fill="#E9C173"/>';
+      }
+    }
+
+    return pot + stemPath + extras;
+  }
+
+  function render(){
+    var stage = stageFor(state.health);
+    var wilted = state.health <= 30;
+
+    document.getElementById('plant-svg').innerHTML = plantSVG(stage.key, wilted);
+    document.getElementById('stage-name').textContent = stage.name;
+    document.getElementById('stage-note').textContent = stage.note;
+    document.getElementById('jar-fill').style.width = state.health + '%';
+    document.getElementById('health-pct').textContent = state.health + '%';
+
+    var streakEl = document.getElementById('streak-label');
+    streakEl.textContent = state.streak > 0 ? ('🔥 ' + state.streak + ' روز پیاپی') : '';
+    streakEl.style.display = state.streak > 0 ? 'flex' : 'none';
+
+    var coreCount = coreCountToday();
+    document.getElementById('core-status').innerHTML = 'کارهای حیاتی امروز: <b>' + coreCount + ' از ۳</b>';
+
+    var wiltSlot = document.getElementById('wilt-banner-slot');
+    wiltSlot.innerHTML = wilted
+      ? '<div class="wilt-banner">گیاهت داره پژمرده می‌شه. یه کار رو تموم کن تا آب بگیره.</div>'
+      : '';
+
+    var list = document.getElementById('task-list');
+    if(state.tasks.length === 0){
+      list.innerHTML = '<li class="empty">هنوز کاری اضافه نکردی. یکی بنویس و شروع کن.</li>';
+    } else {
+      list.innerHTML = '';
+      state.tasks.forEach(function(t){
+        var li = document.createElement('li');
+        li.className = 'task' + (t.done ? ' done' : '');
+
+        var check = document.createElement('button');
+        check.className = 'task-check';
+        check.setAttribute('aria-label', 'انجام شد');
+        check.innerHTML = '<svg viewBox="0 0 12 12"><path d="M1 6 L4.5 9.5 L11 2" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        check.onclick = function(){ toggleDone(t.id); };
+
+        var text = document.createElement('span');
+        text.className = 'task-text';
+        text.textContent = t.text;
+
+        var bud = document.createElement('button');
+        bud.className = 'bud-btn' + (t.core ? ' active' : '');
+        bud.textContent = '🌱';
+        bud.title = t.core ? 'حذف از کارهای حیاتی' : 'علامت به‌عنوان حیاتی';
+        bud.disabled = !t.core && coreCount >= 3;
+        bud.onclick = function(){ toggleCore(t.id); };
+
+        var del = document.createElement('button');
+        del.className = 'del-btn';
+        del.textContent = '✕';
+        del.setAttribute('aria-label', 'حذف');
+        del.onclick = function(){ deleteTask(t.id); };
+
+        li.appendChild(check);
+        li.appendChild(text);
+        li.appendChild(bud);
+        li.appendChild(del);
+        list.appendChild(li);
+      });
+    }
+  }
+
+  document.getElementById('add-btn').onclick = function(){
+    var input = document.getElementById('task-input');
+    addTask(input.value);
+    input.value = '';
+    input.focus();
+  };
+  document.getElementById('task-input').addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      addTask(this.value);
+      this.value = '';
+    }
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>
