@@ -23,7 +23,7 @@
 2. فایل رو مستقیماً توی مرورگر باز کن، یا با یه سرور ساده سرو کن:
 
 ```bash
-git clone https://github.com/<username>/sprout.git
+git clone https://github.com/saborrasooliPy/sprouttodolist.git
 cd sprout
 open sprout.html   # یا: python3 -m http.server
 ```
