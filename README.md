@@ -18,7 +18,7 @@
 ## 🖼️ پیش‌نمایش
 >
 > ```markdown
-> ./screenshot.png
+./screenshot.png
 > ```
 
 ## 🚀 نحوه‌ی استفاده
